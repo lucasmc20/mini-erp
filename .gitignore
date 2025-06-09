@@ -1,0 +1,52 @@
+# Diretórios padrões
+/application/cache/*
+/application/logs/*
+!/application/logs/index.html
+!/application/cache/index.html
+
+# Arquivos de uploads
+/uploads/*
+!/uploads/index.html
+
+# Arquivos de configuração locais 
+/application/config/database.php
+/application/config/config.php
+
+# Arquivos de ambiente
+.env
+
+# Composer
+vendor/
+composer.lock
+
+# Node 
+node_modules/
+npm-debug.log
+
+# Arquivos temporários do sistema operacional
+*.bak
+*.swp
+*.swo
+*.tmp
+.DS_Store
+Thumbs.db
+
+# IDEs e editores
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Outros arquivos que não precisam ir para o versionamento
+*.log
+
+# Arquivos de sessões (caso estejam em filesystem)
+ci_sessions*
+
+# Arquivos de testes e coverage
+coverage/
+phpunit.xml
+phpunit-result.xml
+
+# Outros arquivos pessoais
+*.local
