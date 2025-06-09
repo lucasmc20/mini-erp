@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'host.docker.internal',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'mini_erp',

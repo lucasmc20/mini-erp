@@ -1,0 +1,539 @@
+/* ===== VARIÁVEIS CSS MONTINK ===== */
+:root {
+    --montink-primary: #1a1a1a;
+    --montink-secondary: #00bcd4;
+    --montink-accent: #4dd0e1;
+    --montink-light: #f8f9fa;
+    --montink-gradient: linear-gradient(135deg, #1a1a1a 0%, #333333 50%, #00bcd4 100%);
+}
+
+/* ===== ESTILOS GLOBAIS ===== */
+body {
+    background: var(--montink-gradient);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Para páginas de cadastro com mais conteúdo */
+body.cadastro-page {
+    padding: 2rem 0;
+}
+
+/* ===== CONTAINERS PRINCIPAIS ===== */
+.login-container,
+.cadastro-container {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 188, 212, 0.1);
+    overflow: hidden;
+}
+
+.cadastro-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== HEADERS ===== */
+.login-header,
+.cadastro-header {
+    background: linear-gradient(45deg, var(--montink-primary), var(--montink-secondary));
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.login-header::before,
+.cadastro-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+/* ===== LOGOS ===== */
+.logo {
+    max-width: 120px;
+    height: auto;
+    filter: brightness(0) invert(1);
+    position: relative;
+    z-index: 2;
+    width: 50%;
+}
+
+.cadastro-header .logo {
+    max-width: 100px;
+}
+
+/* ===== TÍTULOS ===== */
+.login-title,
+.cadastro-title {
+    margin: 1rem 0 0.5rem;
+    font-weight: 700;
+    font-size: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.cadastro-title {
+    font-size: 1.8rem;
+}
+
+.login-subtitle,
+.cadastro-subtitle {
+    opacity: 0.9;
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.cadastro-subtitle {
+    font-size: 1rem;
+}
+
+/* ===== FORMULÁRIOS ===== */
+.login-form,
+.cadastro-form {
+    padding: 2.5rem;
+}
+
+.form-floating {
+    margin-bottom: 1.5rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--montink-primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* ===== CAMPOS DE FORMULÁRIO ===== */
+.form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+.form-control:focus {
+    border-color: var(--montink-secondary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.15);
+    background-color: white;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+}
+
+/* ===== INPUT GROUPS ===== */
+.input-group .form-control {
+    border-radius: 12px 0 0 12px;
+}
+
+.password-toggle {
+    border: 2px solid #e9ecef;
+    border-left: none;
+    border-radius: 0 12px 12px 0;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+    padding: 1rem;
+}
+
+.password-toggle:hover {
+    background-color: var(--montink-secondary);
+    border-color: var(--montink-secondary);
+    color: white;
+}
+
+/* ===== BOTÕES ===== */
+.btn-montink {
+    background: linear-gradient(45deg, var(--montink-primary), var(--montink-secondary));
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-montink:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 188, 212, 0.3);
+    color: white;
+}
+
+.btn-montink::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-montink:hover::before {
+    left: 100%;
+}
+
+/* ===== CHECKBOXES ===== */
+.form-check-input:checked {
+    background-color: var(--montink-secondary);
+    border-color: var(--montink-secondary);
+}
+
+/* ===== LINKS ===== */
+.text-montink {
+    color: var(--montink-secondary);
+}
+
+.text-montink:hover {
+    color: var(--montink-primary);
+    text-decoration: none;
+}
+
+/* ===== ALERTAS ===== */
+.alert {
+    border-radius: 12px;
+    border: none;
+    margin-bottom: 1.5rem;
+}
+
+.alert-success {
+    background: linear-gradient(45deg, #d4edda, #c3e6cb);
+    color: #155724;
+}
+
+.alert-danger {
+    background: linear-gradient(45deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+}
+
+.alert-warning {
+    background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+    color: #856404;
+}
+
+.alert-info {
+    background: linear-gradient(45deg, #d1ecf1, #bee5eb);
+    color: #0c5460;
+}
+
+/* ===== FORMAS FLUTUANTES ===== */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.shape {
+    position: absolute;
+    background: rgba(0, 188, 212, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    top: 60%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.shape:nth-child(3) {
+    width: 60px;
+    height: 60px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+.shape:nth-child(4) {
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    right: 20%;
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* ===== MEDIDOR DE FORÇA DA SENHA ===== */
+.strength-meter {
+    height: 5px;
+    border-radius: 3px;
+    margin-top: 5px;
+    background-color: #e9ecef;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.strength-weak { 
+    background-color: #dc3545; 
+    width: 25%; 
+}
+
+.strength-fair { 
+    background-color: #ffc107; 
+    width: 50%; 
+}
+
+.strength-good { 
+    background-color: #fd7e14; 
+    width: 75%; 
+}
+
+.strength-strong { 
+    background-color: #28a745; 
+    width: 100%; 
+}
+
+/* ===== GRID RESPONSIVO ===== */
+.row {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+
+.col-md-6 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .login-form,
+    .cadastro-form {
+        padding: 1.5rem;
+    }
+    
+    .login-header,
+    .cadastro-header {
+        padding: 1.5rem;
+    }
+
+    .cadastro-container,
+    .login-container {
+        margin: 1rem;
+    }
+
+    .login-title,
+    .cadastro-title {
+        font-size: 1.5rem;
+    }
+
+    .login-subtitle,
+    .cadastro-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding: 1rem 0;
+    }
+
+    .shape {
+        display: none; /* Ocultar formas animadas em telas muito pequenas */
+    }
+
+    .form-control {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-montink {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* ===== UTILITÁRIOS ESPECÍFICOS ===== */
+.login-container {
+    max-width: 450px;
+}
+
+/* Ajuste específico para o header do cadastro */
+.cadastro-header {
+    padding: 1.5rem 2rem;
+}
+
+/* Espaçamento extra para campos de cadastro */
+.cadastro-form .row .mb-3:last-child {
+    margin-bottom: 1.5rem;
+}
+
+/* ===== ESTADOS DE VALIDAÇÃO ===== */
+.was-validated .form-control:valid {
+    border-color: var(--montink-secondary);
+}
+
+.was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+
+/* Ocultar mensagens de erro por padrão */
+.invalid-feedback {
+    display: none;
+}
+
+/* Mostrar apenas quando campo tem erro */
+.form-control.is-invalid ~ .invalid-feedback,
+.was-validated .form-control:invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* Não mostrar bordas de erro até que seja necessário */
+.form-control {
+    border-color: #e9ecef;
+}
+
+.form-control:focus {
+    border-color: var(--montink-secondary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.15);
+    background-color: white;
+}
+
+/* Estilos para campos válidos */
+.form-control.is-valid {
+    border-color: var(--montink-secondary);
+    background-image: none;
+}
+
+/* Estilos para campos inválidos */
+.form-control.is-invalid {
+    border-color: #dc3545;
+    background-image: none;
+}
+
+/* Remover ícones padrão do Bootstrap */
+.was-validated .form-control:valid,
+.was-validated .form-control:invalid {
+    background-image: none;
+    padding-right: 1rem;
+}
+
+/* ===== ACESSIBILIDADE ===== */
+.form-control:focus {
+    outline: none;
+}
+
+.btn-montink:focus {
+    outline: 2px solid var(--montink-accent);
+    outline-offset: 2px;
+}
+
+/* ===== ANIMAÇÕES PERSONALIZADAS ===== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== ESTILOS PARA MENSAGENS DE ERRO ===== */
+.invalid-feedback {
+    display: none !important;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* ===== CUSTOMIZAÇÕES ESPECÍFICAS DO BOOTSTRAP ===== */
+.form-check-label {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.form-check-input {
+    margin-top: 0.15rem;
+}
+
+/* ===== LOADING STATE ===== */
+.btn-montink.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-montink.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
