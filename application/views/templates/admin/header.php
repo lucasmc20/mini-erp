@@ -69,7 +69,7 @@
 
             <li class="nav-item">
                 <a class="nav-link <?php echo ($this->uri->segment(1) == 'pedidos') ? 'active' : ''; ?>"
-                   href="<?php echo base_url('pedidos'); ?>">
+                   href="<?php echo base_url('pedido'); ?>">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Pedidos</span>
                 </a>
@@ -77,7 +77,7 @@
 
             <li class="nav-item">
                 <a class="nav-link <?php echo ($this->uri->segment(1) == 'usuarios') ? 'active' : ''; ?>"
-                   href="<?php echo base_url('usuarios'); ?>">
+                   href="<?php echo base_url('usuario'); ?>">
                     <i class="fas fa-users"></i>
                     <span>Usuários</span>
                 </a>

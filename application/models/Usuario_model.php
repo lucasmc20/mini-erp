@@ -95,8 +95,8 @@ class Usuario_model extends CI_Model
     public function email_existe($email)
     {
         return $this->db
-                ->where('email', trim(strtolower($email)))
-                ->count_all_results($this->tabela) > 0;
+            ->where('email', trim(strtolower($email)))
+            ->count_all_results($this->tabela) > 0;
     }
 
     /**
@@ -173,5 +173,35 @@ class Usuario_model extends CI_Model
         return $this->db
             ->where('ativo', 1)
             ->count_all_results($this->tabela);
+    }
+
+
+    public function listar_usuarios($filtros = [], $limite = 20, $offset = 0)
+    {
+        if (!empty($filtros['nome'])) {
+            $this->db->like('nome', $filtros['nome']);
+        }
+        if (!empty($filtros['email'])) {
+            $this->db->like('email', $filtros['email']);
+        }
+        if ($filtros['ativo'] !== null && $filtros['ativo'] !== '') {
+            $this->db->where('ativo', $filtros['ativo']);
+        }
+        $this->db->order_by('id', 'DESC');
+        return $this->db->get('usuarios', $limite, $offset)->result();
+    }
+
+    public function contar_usuarios($filtros = [])
+    {
+        if (!empty($filtros['nome'])) {
+            $this->db->like('nome', $filtros['nome']);
+        }
+        if (!empty($filtros['email'])) {
+            $this->db->like('email', $filtros['email']);
+        }
+        if ($filtros['ativo'] !== null && $filtros['ativo'] !== '') {
+            $this->db->where('ativo', $filtros['ativo']);
+        }
+        return $this->db->count_all_results('usuarios');
     }
 }

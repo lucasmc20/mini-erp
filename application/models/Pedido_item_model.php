@@ -17,7 +17,7 @@ class Pedido_item_model extends CI_Model
      */
     public function get_by_pedido($pedido_id)
     {
-        $this->db->select('pi.*, p.nome as produto_nome, p.sku, p.imagem_principal, p.categoria, p.marca');
+        $this->db->select('pi.*, p.nome as produto_nome, p.sku, p.imagem_principal, p.categoria_id, p.marca');
         $this->db->from($this->table . ' pi');
         $this->db->join('produtos p', 'p.id = pi.produto_id', 'left');
         $this->db->where('pi.pedido_id', $pedido_id);
@@ -56,7 +56,7 @@ class Pedido_item_model extends CI_Model
                 $data['dados_produto'] = json_encode([
                     'nome' => $produto->nome,
                     'sku' => $produto->sku,
-                    'categoria' => $produto->categoria,
+                    'categoria' => $produto->categoria_id,
                     'marca' => $produto->marca,
                     'descricao' => $produto->descricao
                 ]);
