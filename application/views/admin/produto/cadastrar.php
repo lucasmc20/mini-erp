@@ -88,19 +88,32 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="categoria" class="form-label">Categoria</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="categoria"
-                                   name="categoria"
-                                   value="<?php echo set_value('categoria'); ?>"
-                                   placeholder="Ex: Eletrônicos, Roupas..."
-                                   list="listaCategorias">
-                            <datalist id="listaCategorias">
-                                <?php foreach($categorias as $categoria): ?>
-                                <option value="<?php echo $categoria; ?>">
-                                    <?php endforeach; ?>
-                            </datalist>
+                            <label for="categoria_id" class="form-label">Categoria <span class="text-danger">*</span></label>
+                            <div class="d-flex gap-2">
+                                <select class="form-select <?php echo form_error('categoria_id') ? 'is-invalid' : ''; ?>"
+                                        id="categoria_id"
+                                        name="categoria_id"
+                                        required>
+                                    <option value="">Selecione uma categoria</option>
+                                    <?php if(!empty($categorias)): ?>
+                                        <?php foreach($categorias as $categoria): ?>
+                                            <option value="<?php echo $categoria->id; ?>"
+                                                <?php echo set_select('categoria_id', $categoria->id); ?>>
+                                                <?php echo str_repeat('-- ', $categoria->nivel - 1) . htmlspecialchars($categoria->nome); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                                <a href="<?php echo base_url('categoria/cadastrar'); ?>" 
+                                   class="btn btn-outline-secondary" 
+                                   target="_blank" 
+                                   title="Cadastrar nova categoria">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
+                            <div class="invalid-feedback">
+                                <?php echo form_error('categoria_id'); ?>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="marca" class="form-label">Marca</label>
@@ -114,24 +127,45 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+                            <label for="modelo" class="form-label">Modelo</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="modelo"
+                                   name="modelo"
+                                   value="<?php echo set_value('modelo'); ?>"
+                                   placeholder="Modelo do produto">
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <label for="codigo_barras" class="form-label">Código de Barras</label>
                             <input type="text"
                                    class="form-control"
                                    id="codigo_barras"
                                    name="codigo_barras"
                                    value="<?php echo set_value('codigo_barras'); ?>"
-                                   placeholder="Código de barras do produto">
+                                   placeholder="Código de barras">
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="dimensoes" class="form-label">Dimensões</label>
-                            <input type="text"
+                        <div class="col-md-4 mb-3">
+                            <label for="peso" class="form-label">Peso (kg)</label>
+                            <input type="number"
                                    class="form-control"
-                                   id="dimensoes"
-                                   name="dimensoes"
-                                   value="<?php echo set_value('dimensoes'); ?>"
-                                   placeholder="Ex: 10x20x5 cm">
+                                   id="peso"
+                                   name="peso"
+                                   value="<?php echo set_value('peso'); ?>"
+                                   step="0.001"
+                                   min="0"
+                                   placeholder="0,000">
                         </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="dimensoes" class="form-label">Dimensões</label>
+                        <input type="text"
+                               class="form-control"
+                               id="dimensoes"
+                               name="dimensoes"
+                               value="<?php echo set_value('dimensoes'); ?>"
+                               placeholder="Ex: 10x20x5 cm">
                     </div>
                 </div>
             </div>
@@ -146,8 +180,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="preco" class="form-label">Preço <span class="text-danger">*</span></label>
+                        <div class="col-md-4 mb-3">
+                            <label for="preco" class="form-label">Preço de Venda <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
                                 <input type="number"
@@ -164,7 +198,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="preco_promocional" class="form-label">Preço Promocional</label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
@@ -179,18 +213,159 @@
                             </div>
                             <small class="form-text text-muted">Deixe vazio se não houver promoção</small>
                         </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="preco_custo" class="form-label">Preço de Custo</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                <input type="number"
+                                       class="form-control"
+                                       id="preco_custo"
+                                       name="preco_custo"
+                                       value="<?php echo set_value('preco_custo'); ?>"
+                                       step="0.01"
+                                       min="0"
+                                       placeholder="0,00">
+                            </div>
+                            <small class="form-text text-muted">Usado para cálculo de margem</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controle de Estoque -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">
+                        <i class="fas fa-boxes me-2"></i>
+                        Controle de Estoque
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="controlar_estoque"
+                                   name="controlar_estoque"
+                                   value="1"
+                                   onchange="toggleEstoque()"
+                                   <?php echo set_checkbox('controlar_estoque', '1', TRUE); ?>>
+                            <label class="form-check-label" for="controlar_estoque">
+                                <strong>Controlar Estoque</strong>
+                            </label>
+                            <div class="form-text">Ativar controle de estoque para este produto</div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="peso" class="form-label">Peso (kg)</label>
-                        <input type="number"
-                               class="form-control"
-                               id="peso"
-                               name="peso"
-                               value="<?php echo set_value('peso'); ?>"
-                               step="0.001"
-                               min="0"
-                               placeholder="0,000">
+                    <div id="campos_estoque" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="quantidade_inicial" class="form-label">Quantidade Inicial <span class="text-danger">*</span></label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="quantidade_inicial"
+                                       name="quantidade_inicial"
+                                       value="<?php echo set_value('quantidade_inicial', '0'); ?>"
+                                       min="0"
+                                       placeholder="0">
+                                <small class="form-text text-muted">Quantidade inicial no estoque</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="quantidade_minima" class="form-label">Quantidade Mínima <span class="text-danger">*</span></label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="quantidade_minima"
+                                       name="quantidade_minima"
+                                       value="<?php echo set_value('quantidade_minima', '1'); ?>"
+                                       min="0"
+                                       placeholder="1">
+                                <small class="form-text text-muted">Alerta quando atingir este valor</small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="quantidade_maxima" class="form-label">Quantidade Máxima</label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="quantidade_maxima"
+                                       name="quantidade_maxima"
+                                       value="<?php echo set_value('quantidade_maxima'); ?>"
+                                       min="0"
+                                       placeholder="1000">
+                                <small class="form-text text-muted">Limite máximo de estoque</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="localizacao" class="form-label">Localização no Estoque</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="localizacao"
+                                       name="localizacao"
+                                       value="<?php echo set_value('localizacao'); ?>"
+                                       placeholder="Ex: Prateleira A1, Setor 2">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="fornecedor" class="form-label">Fornecedor</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="fornecedor"
+                                       name="fornecedor"
+                                       value="<?php echo set_value('fornecedor'); ?>"
+                                       placeholder="Nome do fornecedor">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="lote" class="form-label">Lote</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="lote"
+                                       name="lote"
+                                       value="<?php echo set_value('lote'); ?>"
+                                       placeholder="Número do lote">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="data_fabricacao" class="form-label">Data de Fabricação</label>
+                                <input type="date"
+                                       class="form-control"
+                                       id="data_fabricacao"
+                                       name="data_fabricacao"
+                                       value="<?php echo set_value('data_fabricacao'); ?>">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="data_validade" class="form-label">Data de Validade</label>
+                                <input type="date"
+                                       class="form-control"
+                                       id="data_validade"
+                                       name="data_validade"
+                                       value="<?php echo set_value('data_validade'); ?>">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="observacoes_estoque" class="form-label">Observações do Estoque</label>
+                            <textarea class="form-control"
+                                      id="observacoes_estoque"
+                                      name="observacoes_estoque"
+                                      rows="3"
+                                      placeholder="Observações sobre o estoque deste produto"><?php echo set_value('observacoes_estoque'); ?></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="permite_venda_sem_estoque"
+                                       name="permite_venda_sem_estoque"
+                                       value="1"
+                                       <?php echo set_checkbox('permite_venda_sem_estoque', '1'); ?>>
+                                <label class="form-check-label" for="permite_venda_sem_estoque">
+                                    Permitir venda mesmo sem estoque
+                                </label>
+                                <div class="form-text">Permite vender o produto mesmo quando o estoque estiver zerado</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,7 +388,7 @@
                                    name="imagem_principal"
                                    accept="image/*"
                                    onchange="previewImagem(this, 'preview-principal')">
-                            <small class="form-text text-muted">Formatos: JPG, PNG, GIF. Máximo: 2MB</small>
+                            <small class="form-text text-muted">Formatos: JPG, PNG, GIF, WebP. Máximo: 2MB</small>
                             <div id="preview-principal" class="mt-2"></div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -225,7 +400,7 @@
                                    accept="image/*"
                                    multiple
                                    onchange="previewGaleria(this)">
-                            <small class="form-text text-muted">Selecione múltiplas imagens</small>
+                            <small class="form-text text-muted">Selecione múltiplas imagens para a galeria</small>
                             <div id="preview-galeria" class="mt-2"></div>
                         </div>
                     </div>
@@ -238,7 +413,7 @@
             <!-- Configurações -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-warning">
+                    <h6 class="m-0 font-weight-bold text-primary">
                         <i class="fas fa-cog me-2"></i>
                         Configurações
                     </h6>
@@ -251,7 +426,7 @@
                                    id="ativo"
                                    name="ativo"
                                    value="1"
-                                <?php echo set_checkbox('ativo', '1', TRUE); ?>>
+                                   <?php echo set_checkbox('ativo', '1', TRUE); ?>>
                             <label class="form-check-label" for="ativo">
                                 <strong>Produto Ativo</strong>
                             </label>
@@ -266,12 +441,57 @@
                                    id="destaque"
                                    name="destaque"
                                    value="1"
-                                <?php echo set_checkbox('destaque', '1'); ?>>
+                                   <?php echo set_checkbox('destaque', '1'); ?>>
                             <label class="form-check-label" for="destaque">
                                 <strong>Produto em Destaque</strong>
                             </label>
                             <div class="form-text">Aparece na página inicial</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">
+                        <i class="fas fa-search me-2"></i>
+                        SEO e Marketing
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="meta_title" class="form-label">Meta Title</label>
+                        <input type="text"
+                               class="form-control"
+                               id="meta_title"
+                               name="meta_title"
+                               value="<?php echo set_value('meta_title'); ?>"
+                               maxlength="200"
+                               placeholder="Título SEO (deixe vazio para usar o nome)">
+                        <small class="form-text text-muted">Máximo 200 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="meta_description" class="form-label">Meta Description</label>
+                        <textarea class="form-control"
+                                  id="meta_description"
+                                  name="meta_description"
+                                  rows="3"
+                                  maxlength="300"
+                                  placeholder="Descrição SEO para mecanismos de busca"><?php echo set_value('meta_description'); ?></textarea>
+                        <small class="form-text text-muted">Máximo 300 caracteres</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <input type="text"
+                               class="form-control"
+                               id="tags"
+                               name="tags"
+                               value="<?php echo set_value('tags'); ?>"
+                               placeholder="tag1, tag2, tag3">
+                        <small class="form-text text-muted">Separar por vírgulas</small>
                     </div>
                 </div>
             </div>
@@ -322,11 +542,15 @@
                         </li>
                         <li class="mb-2">
                             <i class="fas fa-check text-success me-2"></i>
-                            <small>Imagens de boa qualidade vendem mais</small>
+                            <small>Ative o controle de estoque para rastreamento</small>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <small>Categorize corretamente seus produtos</small>
                         </li>
                         <li class="mb-0">
                             <i class="fas fa-check text-success me-2"></i>
-                            <small>Categorize corretamente seus produtos</small>
+                            <small>Imagens de boa qualidade vendem mais</small>
                         </li>
                     </ul>
                 </div>
@@ -420,141 +644,28 @@
         color: inherit;
     }
 
+    #campos_estoque {
+        border: 2px dashed #ffc107;
+        border-radius: 8px;
+        padding: 20px;
+        background-color: #fffbf0;
+    }
+
+    .gap-2 {
+        gap: 0.5rem !important;
+    }
+
     @media (max-width: 768px) {
         .btn-lg {
             font-size: 1rem;
             padding: 0.5rem 1rem;
         }
+        
+        .d-flex.justify-content-between {
+            flex-direction: column;
+            gap: 1rem;
+        }
     }
 </style>
 
-<!-- JavaScript específico -->
-<script>
-    function previewImagem(input, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-image';
-                container.appendChild(img);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function previewGaleria(input) {
-        const container = document.getElementById('preview-galeria');
-        container.innerHTML = '';
-        container.className = 'galeria-preview';
-
-        if (input.files) {
-            Array.from(input.files).forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const div = document.createElement('div');
-                    div.className = 'galeria-item';
-
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'preview-image';
-
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'btn-remove-image';
-                    btn.innerHTML = '×';
-                    btn.onclick = function() {
-                        div.remove();
-                        // Remove file from input (requires recreating file list)
-                    };
-
-                    div.appendChild(img);
-                    div.appendChild(btn);
-                    container.appendChild(div);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-    }
-
-    function gerarSKU() {
-        const nome = document.getElementById('nome').value;
-        const categoria = document.getElementById('categoria').value;
-
-        if (!nome) {
-            alert('Digite o nome do produto primeiro');
-            return;
-        }
-
-        // Gerar SKU baseado no nome e categoria
-        let sku = '';
-        if (categoria) {
-            sku += categoria.substring(0, 3).toUpperCase();
-        }
-        sku += nome.substring(0, 5).toUpperCase().replace(/[^A-Z0-9]/g, '');
-        sku += Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-
-        document.getElementById('sku').value = sku;
-    }
-
-    function limparFormulario() {
-        if (confirm('Tem certeza que deseja limpar todos os campos?')) {
-            document.getElementById('formCadastrarProduto').reset();
-            document.getElementById('preview-principal').innerHTML = '';
-            document.getElementById('preview-galeria').innerHTML = '';
-        }
-    }
-
-    function preencherExemplo() {
-        document.getElementById('nome').value = 'Smartphone XYZ Pro 128GB';
-        document.getElementById('sku').value = 'ELE-SMART-001';
-        document.getElementById('descricao').value = 'Smartphone com tela de 6.1 polegadas, 128GB de armazenamento, câmera tripla de 48MP e bateria de 4000mAh.';
-        document.getElementById('categoria').value = 'Eletrônicos';
-        document.getElementById('marca').value = 'TechBrand';
-        document.getElementById('preco').value = '1299.99';
-        document.getElementById('preco_promocional').value = '1199.99';
-        document.getElementById('peso').value = '0.185';
-        document.getElementById('dimensoes').value = '14.7 x 7.1 x 0.8 cm';
-        document.getElementById('ativo').checked = true;
-        document.getElementById('destaque').checked = true;
-    }
-
-    // Validação em tempo real do formulário
-    document.getElementById('formCadastrarProduto').addEventListener('submit', function(e) {
-        const nome = document.getElementById('nome').value.trim();
-        const sku = document.getElementById('sku').value.trim();
-        const preco = document.getElementById('preco').value;
-
-        if (!nome || !sku || !preco) {
-            e.preventDefault();
-            alert('Preencha todos os campos obrigatórios (Nome, SKU e Preço)');
-            return false;
-        }
-
-        // Mostrar loading
-        const btn = this.querySelector('button[type="submit"]');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Salvando...';
-        btn.disabled = true;
-    });
-
-    // Auto-preenchimento da categoria baseado em outras existentes
-    document.getElementById('categoria').addEventListener('input', function() {
-        // Implementar autocomplete se necessário
-    });
-
-    // Formatação automática de preços
-    document.getElementById('preco').addEventListener('blur', function() {
-        if (this.value) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
-    });
-
-    document.getElementById('preco_promocional').addEventListener('blur', function() {
-        if (this.value) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
-    });
-</script>
+<script src="<?php echo base_url('assets/js/produto-form.js'); ?>"></script>

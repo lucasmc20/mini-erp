@@ -7,7 +7,9 @@
         </h1>
         <p class="mb-0 text-gray-600">
             <span class="badge bg-secondary me-2">SKU: <?php echo $produto->sku; ?></span>
-            <?php if ($produto->categoria): ?>
+            <?php if (isset($produto->categoria_nome) && $produto->categoria_nome): ?>
+                <span class="badge bg-primary me-2"><?php echo $produto->categoria_nome; ?></span>
+            <?php elseif (isset($produto->categoria) && !is_object($produto->categoria) && $produto->categoria): ?>
                 <span class="badge bg-primary me-2"><?php echo $produto->categoria; ?></span>
             <?php endif; ?>
             <?php if ($produto->ativo): ?>
@@ -53,15 +55,11 @@
             </div>
             <div class="card-body">
                 <?php
-                $galeria = json_decode($produto->galeria_imagens, true) ?: [];
+                $galeria = json_decode($produto->galeria_imagens ?? '', true) ?: [];
                 $todasImagens = [];
-
-                // Adicionar imagem principal primeiro
                 if ($produto->imagem_principal) {
                     $todasImagens[] = $produto->imagem_principal;
                 }
-
-                // Adicionar imagens da galeria
                 $todasImagens = array_merge($todasImagens, $galeria);
                 ?>
 
@@ -76,8 +74,6 @@
                                      id="imagemPrincipal">
                             </div>
                         </div>
-
-                        <!-- Miniaturas -->
                         <?php if (count($todasImagens) > 1): ?>
                             <div class="col-md-4">
                                 <div class="thumbnails-container">
@@ -93,8 +89,6 @@
                             </div>
                         <?php endif; ?>
                     </div>
-
-                    <!-- Controles da Galeria -->
                     <div class="d-flex justify-content-center mt-3">
                         <button class="btn btn-outline-primary btn-sm me-2" onclick="ampliarImagem()">
                             <i class="fas fa-search-plus me-1"></i>
@@ -137,7 +131,12 @@
                                 <td class="fw-bold text-muted">SKU:</td>
                                 <td><code><?php echo $produto->sku; ?></code></td>
                             </tr>
-                            <?php if ($produto->categoria): ?>
+                            <?php if (isset($produto->categoria_nome) && $produto->categoria_nome): ?>
+                                <tr>
+                                    <td class="fw-bold text-muted">Categoria:</td>
+                                    <td><span class="badge bg-secondary"><?php echo $produto->categoria_nome; ?></span></td>
+                                </tr>
+                            <?php elseif (isset($produto->categoria) && !is_object($produto->categoria) && $produto->categoria): ?>
                                 <tr>
                                     <td class="fw-bold text-muted">Categoria:</td>
                                     <td><span class="badge bg-secondary"><?php echo $produto->categoria; ?></span></td>
@@ -253,8 +252,6 @@
                 </div>
 
                 <hr>
-
-                <!-- Ações Rápidas -->
                 <div class="d-grid gap-2">
                     <?php if (!$produto->ativo): ?>
                         <button class="btn btn-success btn-sm" onclick="alterarStatus(<?php echo $produto->id; ?>, 1)">
@@ -291,12 +288,12 @@
                 <div class="row text-center">
                     <div class="col-6">
                         <div class="border-end">
-                            <h5 class="text-primary mb-1">0</h5>
+                            <h5 class="text-primary mb-1"><?php echo isset($produto->vendas_total) ? $produto->vendas_total : '0'; ?></h5>
                             <small class="text-muted">Vendas</small>
                         </div>
                     </div>
                     <div class="col-6">
-                        <h5 class="text-info mb-1">0</h5>
+                        <h5 class="text-info mb-1"><?php echo isset($produto->views) ? $produto->views : '0'; ?></h5>
                         <small class="text-muted">Visualizações</small>
                     </div>
                 </div>

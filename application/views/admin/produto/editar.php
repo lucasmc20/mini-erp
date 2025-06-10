@@ -95,49 +95,97 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="categoria" class="form-label">Categoria</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="categoria"
-                                   name="categoria"
-                                   value="<?php echo set_value('categoria', $produto->categoria); ?>"
-                                   placeholder="Ex: Eletrônicos, Roupas..."
-                                   list="listaCategorias">
-                            <datalist id="listaCategorias">
-                                <?php foreach($categorias as $categoria): ?>
-                                <option value="<?php echo $categoria; ?>">
+                            <label for="categoria_id" class="form-label">Categoria <span class="text-danger">*</span></label>
+                            <select class="form-control <?php echo form_error('categoria_id') ? 'is-invalid' : ''; ?>"
+                                    id="categoria_id"
+                                    name="categoria_id"
+                                    required>
+                                <option value="">Selecione uma categoria</option>
+                                <?php if (!empty($categorias)): ?>
+                                    <?php foreach($categorias as $categoria): ?>
+                                        <option value="<?php echo $categoria->id; ?>" 
+                                                <?php echo set_select('categoria_id', $categoria->id, ($produto->categoria_id == $categoria->id)); ?>>
+                                            <?php echo $categoria->nome; ?>
+                                        </option>
                                     <?php endforeach; ?>
-                            </datalist>
+                                <?php endif; ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                <?php echo form_error('categoria_id'); ?>
+                            </div>
+                            <?php if (!empty($produto->categoria_nome)): ?>
+                                <small class="form-text text-muted">
+                                    Categoria atual: <strong><?php echo $produto->categoria_nome; ?></strong>
+                                </small>
+                            <?php endif; ?>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="marca" class="form-label">Marca</label>
                             <input type="text"
-                                   class="form-control"
+                                   class="form-control <?php echo form_error('marca') ? 'is-invalid' : ''; ?>"
                                    id="marca"
                                    name="marca"
                                    value="<?php echo set_value('marca', $produto->marca); ?>"
                                    placeholder="Nome da marca">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('marca'); ?>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            <label for="modelo" class="form-label">Modelo</label>
+                            <input type="text"
+                                   class="form-control <?php echo form_error('modelo') ? 'is-invalid' : ''; ?>"
+                                   id="modelo"
+                                   name="modelo"
+                                   value="<?php echo set_value('modelo', $produto->modelo); ?>"
+                                   placeholder="Modelo do produto">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('modelo'); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label for="codigo_barras" class="form-label">Código de Barras</label>
                             <input type="text"
-                                   class="form-control"
+                                   class="form-control <?php echo form_error('codigo_barras') ? 'is-invalid' : ''; ?>"
                                    id="codigo_barras"
                                    name="codigo_barras"
                                    value="<?php echo set_value('codigo_barras', $produto->codigo_barras); ?>"
                                    placeholder="Código de barras do produto">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('codigo_barras'); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="peso" class="form-label">Peso (kg)</label>
+                            <input type="number"
+                                   class="form-control <?php echo form_error('peso') ? 'is-invalid' : ''; ?>"
+                                   id="peso"
+                                   name="peso"
+                                   value="<?php echo set_value('peso', $produto->peso); ?>"
+                                   step="0.001"
+                                   min="0"
+                                   placeholder="0,000">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('peso'); ?>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="dimensoes" class="form-label">Dimensões</label>
                             <input type="text"
-                                   class="form-control"
+                                   class="form-control <?php echo form_error('dimensoes') ? 'is-invalid' : ''; ?>"
                                    id="dimensoes"
                                    name="dimensoes"
                                    value="<?php echo set_value('dimensoes', $produto->dimensoes); ?>"
                                    placeholder="Ex: 10x20x5 cm">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('dimensoes'); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -153,7 +201,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="preco" class="form-label">Preço <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
@@ -171,33 +219,215 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="preco_promocional" class="form-label">Preço Promocional</label>
                             <div class="input-group">
                                 <span class="input-group-text">R$</span>
                                 <input type="number"
-                                       class="form-control"
+                                       class="form-control <?php echo form_error('preco_promocional') ? 'is-invalid' : ''; ?>"
                                        id="preco_promocional"
                                        name="preco_promocional"
                                        value="<?php echo set_value('preco_promocional', $produto->preco_promocional); ?>"
                                        step="0.01"
                                        min="0"
                                        placeholder="0,00">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('preco_promocional'); ?>
+                                </div>
                             </div>
                             <small class="form-text text-muted">Deixe vazio se não houver promoção</small>
                         </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="preco_custo" class="form-label">Preço de Custo</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                <input type="number"
+                                       class="form-control <?php echo form_error('preco_custo') ? 'is-invalid' : ''; ?>"
+                                       id="preco_custo"
+                                       name="preco_custo"
+                                       value="<?php echo set_value('preco_custo', $produto->preco_custo); ?>"
+                                       step="0.01"
+                                       min="0"
+                                       placeholder="0,00">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('preco_custo'); ?>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">Para controle interno</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controle de Estoque -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">
+                        <i class="fas fa-boxes me-2"></i>
+                        Controle de Estoque
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="controlar_estoque"
+                                       name="controlar_estoque"
+                                       value="1"
+                                       <?php echo set_checkbox('controlar_estoque', '1', $produto->controlar_estoque); ?>
+                                       onchange="toggleEstoque()">
+                                <label class="form-check-label" for="controlar_estoque">
+                                    <strong>Controlar Estoque</strong>
+                                </label>
+                                <div class="form-text">Ativar para controlar quantidades</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="permite_venda_sem_estoque"
+                                       name="permite_venda_sem_estoque"
+                                       value="1"
+                                       <?php echo set_checkbox('permite_venda_sem_estoque', '1', $produto->permite_venda_sem_estoque); ?>>
+                                <label class="form-check-label" for="permite_venda_sem_estoque">
+                                    <strong>Permitir Venda Sem Estoque</strong>
+                                </label>
+                                <div class="form-text">Vender mesmo sem quantidade</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="peso" class="form-label">Peso (kg)</label>
-                        <input type="number"
-                               class="form-control"
-                               id="peso"
-                               name="peso"
-                               value="<?php echo set_value('peso', $produto->peso); ?>"
-                               step="0.001"
-                               min="0"
-                               placeholder="0,000">
+                    <!-- Campos de Estoque (mostrar/ocultar baseado no checkbox) -->
+                    <div id="campos-estoque" style="<?php echo $produto->controlar_estoque ? 'display: block;' : 'display: none;'; ?>">
+                        <hr class="my-3">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="quantidade_atual" class="form-label">Quantidade Atual</label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="quantidade_atual"
+                                       value="<?php echo isset($produto->quantidade_atual) ? $produto->quantidade_atual : '0'; ?>"
+                                       readonly>
+                                <small class="form-text text-muted">Somente leitura</small>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="quantidade_minima" class="form-label">Quantidade Mínima</label>
+                                <input type="number"
+                                       class="form-control <?php echo form_error('quantidade_minima') ? 'is-invalid' : ''; ?>"
+                                       id="quantidade_minima"
+                                       name="quantidade_minima"
+                                       value="<?php echo set_value('quantidade_minima', isset($produto->quantidade_minima) ? $produto->quantidade_minima : '1'); ?>"
+                                       min="0"
+                                       placeholder="1">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('quantidade_minima'); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="quantidade_maxima" class="form-label">Quantidade Máxima</label>
+                                <input type="number"
+                                       class="form-control <?php echo form_error('quantidade_maxima') ? 'is-invalid' : ''; ?>"
+                                       id="quantidade_maxima"
+                                       name="quantidade_maxima"
+                                       value="<?php echo set_value('quantidade_maxima', isset($produto->quantidade_maxima) ? $produto->quantidade_maxima : ''); ?>"
+                                       min="0"
+                                       placeholder="Opcional">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('quantidade_maxima'); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="localizacao" class="form-label">Localização</label>
+                                <input type="text"
+                                       class="form-control <?php echo form_error('localizacao') ? 'is-invalid' : ''; ?>"
+                                       id="localizacao"
+                                       name="localizacao"
+                                       value="<?php echo set_value('localizacao', isset($produto->localizacao) ? $produto->localizacao : ''); ?>"
+                                       placeholder="Ex: A1-B2">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('localizacao'); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="lote" class="form-label">Lote</label>
+                                <input type="text"
+                                       class="form-control <?php echo form_error('lote') ? 'is-invalid' : ''; ?>"
+                                       id="lote"
+                                       name="lote"
+                                       value="<?php echo set_value('lote', isset($produto->lote) ? $produto->lote : ''); ?>"
+                                       placeholder="Código do lote">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('lote'); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="data_fabricacao" class="form-label">Data de Fabricação</label>
+                                <input type="date"
+                                       class="form-control <?php echo form_error('data_fabricacao') ? 'is-invalid' : ''; ?>"
+                                       id="data_fabricacao"
+                                       name="data_fabricacao"
+                                       value="<?php echo set_value('data_fabricacao', isset($produto->data_fabricacao) ? $produto->data_fabricacao : ''); ?>">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('data_fabricacao'); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="data_validade" class="form-label">Data de Validade</label>
+                                <input type="date"
+                                       class="form-control <?php echo form_error('data_validade') ? 'is-invalid' : ''; ?>"
+                                       id="data_validade"
+                                       name="data_validade"
+                                       value="<?php echo set_value('data_validade', isset($produto->data_validade) ? $produto->data_validade : ''); ?>">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('data_validade'); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fornecedor" class="form-label">Fornecedor</label>
+                                <input type="text"
+                                       class="form-control <?php echo form_error('fornecedor') ? 'is-invalid' : ''; ?>"
+                                       id="fornecedor"
+                                       name="fornecedor"
+                                       value="<?php echo set_value('fornecedor', isset($produto->fornecedor) ? $produto->fornecedor : ''); ?>"
+                                       placeholder="Nome do fornecedor">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('fornecedor'); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="codigo_fornecedor" class="form-label">Código do Fornecedor</label>
+                                <input type="text"
+                                       class="form-control <?php echo form_error('codigo_fornecedor') ? 'is-invalid' : ''; ?>"
+                                       id="codigo_fornecedor"
+                                       name="codigo_fornecedor"
+                                       value="<?php echo set_value('codigo_fornecedor', isset($produto->codigo_fornecedor) ? $produto->codigo_fornecedor : ''); ?>"
+                                       placeholder="Código no fornecedor">
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('codigo_fornecedor'); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="observacoes_estoque" class="form-label">Observações do Estoque</label>
+                            <textarea class="form-control <?php echo form_error('observacoes_estoque') ? 'is-invalid' : ''; ?>"
+                                      id="observacoes_estoque"
+                                      name="observacoes_estoque"
+                                      rows="2"
+                                      placeholder="Observações sobre o estoque..."><?php echo set_value('observacoes_estoque', isset($produto->observacoes_estoque) ? $produto->observacoes_estoque : ''); ?></textarea>
+                            <div class="invalid-feedback">
+                                <?php echo form_error('observacoes_estoque'); ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -266,7 +496,7 @@
                                    accept="image/*"
                                    onchange="previewImagem(this, 'preview-principal')">
                             <small class="form-text text-muted">
-                                Formatos: JPG, PNG, GIF. Máximo: 2MB
+                                Formatos: JPG, PNG, GIF, WEBP. Máximo: 2MB
                                 <?php if (!$produto->imagem_principal): ?>
                                     <br><span class="text-warning">⚠️ Este produto não possui imagem principal</span>
                                 <?php endif; ?>
@@ -285,6 +515,60 @@
                             <small class="form-text text-muted">Selecione múltiplas imagens para adicionar</small>
                             <div id="preview-galeria" class="mt-2"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO e Metadados -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-secondary">
+                        <i class="fas fa-search me-2"></i>
+                        SEO e Metadados
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="meta_title" class="form-label">Meta Title</label>
+                            <input type="text"
+                                   class="form-control <?php echo form_error('meta_title') ? 'is-invalid' : ''; ?>"
+                                   id="meta_title"
+                                   name="meta_title"
+                                   value="<?php echo set_value('meta_title', $produto->meta_title); ?>"
+                                   placeholder="Título para SEO"
+                                   maxlength="60">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('meta_title'); ?>
+                            </div>
+                            <small class="form-text text-muted">Máximo 60 caracteres</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tags" class="form-label">Tags</label>
+                            <input type="text"
+                                   class="form-control <?php echo form_error('tags') ? 'is-invalid' : ''; ?>"
+                                   id="tags"
+                                   name="tags"
+                                   value="<?php echo set_value('tags', $produto->tags); ?>"
+                                   placeholder="tag1, tag2, tag3">
+                            <div class="invalid-feedback">
+                                <?php echo form_error('tags'); ?>
+                            </div>
+                            <small class="form-text text-muted">Separadas por vírgula</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meta_description" class="form-label">Meta Description</label>
+                        <textarea class="form-control <?php echo form_error('meta_description') ? 'is-invalid' : ''; ?>"
+                                  id="meta_description"
+                                  name="meta_description"
+                                  rows="3"
+                                  placeholder="Descrição para SEO"
+                                  maxlength="160"><?php echo set_value('meta_description', $produto->meta_description); ?></textarea>
+                        <div class="invalid-feedback">
+                            <?php echo form_error('meta_description'); ?>
+                        </div>
+                        <small class="form-text text-muted">Máximo 160 caracteres</small>
                     </div>
                 </div>
             </div>
@@ -349,12 +633,12 @@
                         </tr>
                         <tr>
                             <td class="text-muted small">Data de Cadastro:</td>
-                            <td><small><?php echo formatar_datetime_br($produto->data_cadastro); ?></small></td>
+                            <td><small><?php echo date('d/m/Y H:i', strtotime($produto->data_cadastro)); ?></small></td>
                         </tr>
                         <?php if ($produto->data_atualizacao): ?>
                             <tr>
                                 <td class="text-muted small">Última Atualização:</td>
-                                <td><small><?php echo formatar_datetime_br($produto->data_atualizacao); ?></small></td>
+                                <td><small><?php echo date('d/m/Y H:i', strtotime($produto->data_atualizacao)); ?></small></td>
                             </tr>
                         <?php endif; ?>
                         <tr>
@@ -370,9 +654,47 @@
                                 <?php endif; ?>
                             </td>
                         </tr>
+                        <?php if (isset($produto->quantidade_atual) && $produto->controlar_estoque): ?>
+                            <tr>
+                                <td class="text-muted small">Estoque Atual:</td>
+                                <td>
+                                    <span class="badge <?php echo ($produto->quantidade_atual <= ($produto->quantidade_minima ?? 0)) ? 'bg-danger' : 'bg-success'; ?>">
+                                        <?php echo $produto->quantidade_atual; ?> unid.
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </table>
                 </div>
             </div>
+
+            <!-- Estatísticas Rápidas -->
+            <?php if (isset($produto->views) || isset($produto->vendas_total)): ?>
+            <div class="card shadow mb-4 border-left-primary">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Estatísticas
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <?php if (isset($produto->views)): ?>
+                        <div class="col-6">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Visualizações</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo number_format($produto->views); ?></div>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (isset($produto->vendas_total)): ?>
+                        <div class="col-6">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Vendas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo number_format($produto->vendas_total); ?></div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
 
             <!-- Ações Rápidas -->
             <div class="card shadow mb-4">
@@ -392,6 +714,12 @@
                             <i class="fas fa-eye me-2"></i>
                             Visualizar
                         </button>
+                        <?php if ($produto->controlar_estoque): ?>
+                        <button type="button" class="btn btn-outline-warning btn-sm" onclick="ajustarEstoque()">
+                            <i class="fas fa-boxes me-2"></i>
+                            Ajustar Estoque
+                        </button>
+                        <?php endif; ?>
                         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="resetarFormulario()">
                             <i class="fas fa-undo me-2"></i>
                             Resetar Alterações
@@ -400,11 +728,11 @@
                 </div>
             </div>
 
-            <!-- Histórico de Alterações -->
+            <!-- Dicas de Edição -->
             <div class="card shadow mb-4 border-left-warning">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-warning">
-                        <i class="fas fa-history me-2"></i>
+                        <i class="fas fa-lightbulb me-2"></i>
                         Dicas de Edição
                     </h6>
                 </div>
@@ -422,9 +750,13 @@
                             <i class="fas fa-check text-success me-2"></i>
                             <small>Novas imagens substituirão as atuais</small>
                         </li>
-                        <li class="mb-0">
+                        <li class="mb-2">
                             <i class="fas fa-check text-success me-2"></i>
                             <small>Use "Resetar" para desfazer alterações</small>
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-exclamation text-warning me-2"></i>
+                            <small>Salvamento automático a cada 30 segundos</small>
                         </li>
                     </ul>
                 </div>
@@ -462,430 +794,37 @@
     </div>
 </form>
 
-<!-- CSS específico -->
-<style>
-    .border-left-info {
-        border-left: 4px solid #17a2b8 !important;
-    }
-
-    .border-left-warning {
-        border-left: 4px solid #ffc107 !important;
-    }
-
-    .text-gray-600 {
-        color: #6c757d !important;
-    }
-
-    .text-gray-800 {
-        color: #3a3b45 !important;
-    }
-
-    .form-switch .form-check-input {
-        width: 2.5em;
-        height: 1.25em;
-    }
-
-    .preview-image {
-        max-width: 150px;
-        max-height: 150px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin: 5px;
-    }
-
-    .galeria-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .galeria-item {
-        position: relative;
-        display: inline-block;
-    }
-
-    .btn-remove-image {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        font-size: 12px;
-        cursor: pointer;
-    }
-
-    .input-group-text {
-        background-color: #f8f9fa;
-        border-color: #ced4da;
-    }
-
-    .table td {
-        padding: 0.25rem 0.5rem;
-        border: none;
-    }
-
-    @media (max-width: 768px) {
-        .btn-lg {
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-        }
-
-        .btn-group .btn {
-            margin-bottom: 5px;
-        }
-    }
-</style>
-
-<!-- JavaScript específico -->
+<script src="<?php echo base_url('assets/js/produto-edit.js'); ?>"></script>
+<!-- Variables for JavaScript -->
 <script>
-    // Armazenar valores originais para reset
-    const valoresOriginais = {
+    // Dados do produto para o JavaScript
+    window.produtoData = {
+        id: <?php echo $produto->id; ?>,
         nome: '<?php echo addslashes($produto->nome); ?>',
         sku: '<?php echo addslashes($produto->sku); ?>',
-        descricao: '<?php echo addslashes($produto->descricao); ?>',
-        categoria: '<?php echo addslashes($produto->categoria); ?>',
-        marca: '<?php echo addslashes($produto->marca); ?>',
-        codigo_barras: '<?php echo addslashes($produto->codigo_barras); ?>',
-        dimensoes: '<?php echo addslashes($produto->dimensoes); ?>',
+        descricao: '<?php echo addslashes($produto->descricao ?? ''); ?>',
+        categoria_id: '<?php echo $produto->categoria_id; ?>',
+        marca: '<?php echo addslashes($produto->marca ?? ''); ?>',
+        modelo: '<?php echo addslashes($produto->modelo ?? ''); ?>',
+        codigo_barras: '<?php echo addslashes($produto->codigo_barras ?? ''); ?>',
+        dimensoes: '<?php echo addslashes($produto->dimensoes ?? ''); ?>',
         preco: '<?php echo $produto->preco; ?>',
-        preco_promocional: '<?php echo $produto->preco_promocional; ?>',
-        peso: '<?php echo $produto->peso; ?>',
+        preco_promocional: '<?php echo $produto->preco_promocional ?? ''; ?>',
+        preco_custo: '<?php echo $produto->preco_custo ?? ''; ?>',
+        peso: '<?php echo $produto->peso ?? ''; ?>',
         ativo: <?php echo $produto->ativo ? 'true' : 'false'; ?>,
-        destaque: <?php echo $produto->destaque ? 'true' : 'false'; ?>
+        destaque: <?php echo $produto->destaque ? 'true' : 'false'; ?>,
+        controlar_estoque: <?php echo $produto->controlar_estoque ? 'true' : 'false'; ?>,
+        permite_venda_sem_estoque: <?php echo $produto->permite_venda_sem_estoque ? 'true' : 'false'; ?>
     };
 
-    function previewImagem(input, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-image';
-                container.appendChild(img);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function previewGaleria(input) {
-        const container = document.getElementById('preview-galeria');
-        container.innerHTML = '';
-        container.className = 'galeria-preview';
-
-        if (input.files) {
-            Array.from(input.files).forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const div = document.createElement('div');
-                    div.className = 'galeria-item';
-
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'preview-image';
-
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'btn-remove-image';
-                    btn.innerHTML = '×';
-                    btn.onclick = function() {
-                        div.remove();
-                    };
-
-                    div.appendChild(img);
-                    div.appendChild(btn);
-                    container.appendChild(div);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-    }
-
-    function removerImagemGaleria(nomeImagem, index) {
-        if (confirm('Tem certeza que deseja remover esta imagem?')) {
-            fetch('<?php echo base_url('produto/remover_imagem_galeria'); ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: `produto_id=<?php echo $produto->id; ?>&imagem=${encodeURIComponent(nomeImagem)}`
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById(`galeria-item-${index}`).remove();
-                        alert('Imagem removida com sucesso!');
-                    } else {
-                        alert('Erro: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao remover imagem. Tente novamente.');
-                });
-        }
-    }
-
-    function resetarFormulario() {
-        if (confirm('Tem certeza que deseja resetar todas as alterações?')) {
-            // Restaurar valores originais
-            Object.keys(valoresOriginais).forEach(campo => {
-                const elemento = document.getElementById(campo);
-                if (elemento) {
-                    if (elemento.type === 'checkbox') {
-                        elemento.checked = valoresOriginais[campo];
-                    } else {
-                        elemento.value = valoresOriginais[campo] || '';
-                    }
-                }
-            });
-
-            // Limpar previews
-            document.getElementById('preview-principal').innerHTML = '';
-            document.getElementById('preview-galeria').innerHTML = '';
-
-            // Resetar inputs de arquivo
-            document.getElementById('imagem_principal').value = '';
-            document.getElementById('galeria').value = '';
-
-            alert('Formulário resetado para os valores originais.');
-        }
-    }
-
-    function duplicarProduto() {
-        if (confirm('Deseja duplicar este produto? Será criado um novo produto com os mesmos dados e SKU diferente.')) {
-            window.open('<?php echo base_url('produto/duplicar/' . $produto->id); ?>', '_blank');
-        }
-    }
-
-    function visualizarProduto() {
-        window.open('<?php echo base_url('produto/visualizar/' . $produto->id); ?>', '_blank');
-    }
-
-    function excluirProduto(id, nome) {
-        if (confirm(`Tem certeza que deseja excluir o produto "${nome}"?\n\nEsta ação não pode ser desfeita.`)) {
-            fetch(`<?php echo base_url('produto/excluir/'); ?>${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        window.location.href = '<?php echo base_url('produto'); ?>';
-                    } else {
-                        alert('Erro: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao excluir produto. Tente novamente.');
-                });
-        }
-    }
-
-    // Validação em tempo real do formulário
-    document.getElementById('formEditarProduto').addEventListener('submit', function(e) {
-        const nome = document.getElementById('nome').value.trim();
-        const sku = document.getElementById('sku').value.trim();
-        const preco = document.getElementById('preco').value;
-
-        if (!nome || !sku || !preco) {
-            e.preventDefault();
-            alert('Preencha todos os campos obrigatórios (Nome, SKU e Preço)');
-            return false;
-        }
-
-        // Mostrar loading
-        const btn = this.querySelector('button[type="submit"]');
-        const textoOriginal = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Salvando...';
-        btn.disabled = true;
-
-        // Se não estiver marcado "continuar editando", redirecionar após salvar
-        if (!document.getElementById('continuarEditando').checked) {
-            setTimeout(() => {
-                if (!this.querySelector('.is-invalid')) {
-                    window.location.href = '<?php echo base_url('produto'); ?>';
-                }
-            }, 1000);
-        }
-    });
-
-    // Detectar mudanças no formulário
-    let formularioAlterado = false;
-
-    document.getElementById('formEditarProduto').addEventListener('change', function() {
-        formularioAlterado = true;
-    });
-
-    document.getElementById('formEditarProduto').addEventListener('input', function() {
-        formularioAlterado = true;
-    });
-
-    // Avisar sobre mudanças não salvas
-    window.addEventListener('beforeunload', function(e) {
-        if (formularioAlterado) {
-            e.preventDefault();
-            e.returnValue = 'Você tem alterações não salvas. Deseja realmente sair?';
-            return 'Você tem alterações não salvas. Deseja realmente sair?';
-        }
-    });
-
-    // Marcar como salvo quando o formulário for enviado
-    document.getElementById('formEditarProduto').addEventListener('submit', function() {
-        formularioAlterado = false;
-    });
-
-    // Formatação automática de preços
-    document.getElementById('preco').addEventListener('blur', function() {
-        if (this.value) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
-    });
-
-    document.getElementById('preco_promocional').addEventListener('blur', function() {
-        if (this.value) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
-    });
-
-    // Validação de preço promocional
-    document.getElementById('preco_promocional').addEventListener('input', function() {
-        const precoNormal = parseFloat(document.getElementById('preco').value) || 0;
-        const precoPromocional = parseFloat(this.value) || 0;
-
-        if (precoPromocional > 0 && precoPromocional >= precoNormal) {
-            this.setCustomValidity('O preço promocional deve ser menor que o preço normal');
-            this.classList.add('is-invalid');
-        } else {
-            this.setCustomValidity('');
-            this.classList.remove('is-invalid');
-        }
-    });
-
-    // Auto-save de rascunho (opcional)
-    function autoSaveDraft() {
-        const formData = new FormData(document.getElementById('formEditarProduto'));
-        const dados = {};
-
-        // Converter FormData para objeto
-        for (let [key, value] of formData.entries()) {
-            if (key !== 'imagem_principal' && key !== 'galeria[]') {
-                dados[key] = value;
-            }
-        }
-
-        // Salvar no localStorage
-        localStorage.setItem(`produto_draft_${<?php echo $produto->id; ?>}`, JSON.stringify(dados));
-    }
-
-    // Auto-save a cada 30 segundos se houver alterações
-    setInterval(() => {
-        if (formularioAlterado) {
-            autoSaveDraft();
-            console.log('Rascunho salvo automaticamente');
-        }
-    }, 30000);
-
-    // Restaurar rascunho se existir
-    function restaurarRascunho() {
-        const rascunho = localStorage.getItem(`produto_draft_${<?php echo $produto->id; ?>}`);
-
-        if (rascunho) {
-            if (confirm('Foi encontrado um rascunho não salvo deste produto. Deseja restaurá-lo?')) {
-                const dados = JSON.parse(rascunho);
-
-                Object.keys(dados).forEach(campo => {
-                    const elemento = document.getElementById(campo);
-                    if (elemento) {
-                        if (elemento.type === 'checkbox') {
-                            elemento.checked = dados[campo] === '1';
-                        } else {
-                            elemento.value = dados[campo] || '';
-                        }
-                    }
-                });
-
-                formularioAlterado = true;
-            } else {
-                // Limpar rascunho se o usuário não quiser restaurar
-                localStorage.removeItem(`produto_draft_${<?php echo $produto->id; ?>}`);
-            }
-        }
-    }
-
-    // Limpar rascunho após salvar com sucesso
-    function limparRascunho() {
-        localStorage.removeItem(`produto_draft_${<?php echo $produto->id; ?>}`);
-    }
-
-    // Restaurar rascunho ao carregar a página
-    document.addEventListener('DOMContentLoaded', restaurarRascunho);
-
-    // Atalhos de teclado
-    document.addEventListener('keydown', function(e) {
-        // Ctrl+S para salvar
-        if (e.ctrlKey && e.key === 's') {
-            e.preventDefault();
-            document.getElementById('formEditarProduto').submit();
-        }
-
-        // Ctrl+Z para resetar
-        if (e.ctrlKey && e.key === 'z' && e.shiftKey) {
-            e.preventDefault();
-            resetarFormulario();
-        }
-
-        // Esc para cancelar
-        if (e.key === 'Escape') {
-            if (confirm('Deseja cancelar a edição? Alterações não salvas serão perdidas.')) {
-                history.back();
-            }
-        }
-    });
-
-    // Adicionar indicador visual de campo alterado
-    document.querySelectorAll('input, textarea, select').forEach(campo => {
-        const valorOriginal = campo.value;
-
-        campo.addEventListener('input', function() {
-            if (this.value !== valorOriginal) {
-                this.classList.add('campo-alterado');
-            } else {
-                this.classList.remove('campo-alterado');
-            }
-        });
-    });
-
-    // CSS para campos alterados
-    const style = document.createElement('style');
-    style.textContent = `
-    .campo-alterado {
-        border-left: 3px solid #ffc107 !important;
-        background-color: #fffbf0 !important;
-    }
-
-    .campo-alterado:focus {
-        border-left: 3px solid #ffc107 !important;
-        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25) !important;
-    }
-`;
-    document.head.appendChild(style);
-
-    console.log('Sistema de edição carregado com sucesso!');
-    console.log('Atalhos disponíveis:');
-    console.log('- Ctrl+S: Salvar');
-    console.log('- Ctrl+Shift+Z: Resetar');
-    console.log('- Esc: Cancelar');
+    // URLs para o JavaScript
+    window.appUrls = {
+        base: '<?php echo base_url(); ?>',
+        produto: '<?php echo base_url('produto'); ?>',
+        removerImagem: '<?php echo base_url('produto/remover_imagem_galeria'); ?>',
+        excluir: '<?php echo base_url('produto/excluir/'); ?>',
+        visualizar: '<?php echo base_url('produto/visualizar/' . $produto->id); ?>',
+        duplicar: '<?php echo base_url('produto/duplicar/' . $produto->id); ?>'
+    };
 </script>

@@ -36,7 +36,7 @@
     <div class="sidebar-menu">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link <?php echo ($this->uri->segment(2) == '' || $this->uri->segment(2) == 'index') ? 'active' : ''; ?>"
+                <a class="nav-link <?php echo ($this->uri->segment(1) == 'dashboard') ? 'active' : ''; ?>"
                    href="<?php echo base_url('dashboard'); ?>">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -44,7 +44,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link <?php echo ($this->uri->segment(1) == 'produtos') ? 'active' : ''; ?>"
+                <a class="nav-link <?php echo ($this->uri->segment(1) == 'produto') ? 'active' : ''; ?>"
                    href="<?php echo base_url('produto'); ?>">
                     <i class="fas fa-box"></i>
                     <span>Produtos</span>
@@ -60,8 +60,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link <?php echo ($this->uri->segment(1) == 'cupons') ? 'active' : ''; ?>"
-                   href="<?php echo base_url('cupons'); ?>">
+                <a class="nav-link <?php echo ($this->uri->segment(1) == 'cupom') ? 'active' : ''; ?>"
+                   href="<?php echo base_url('cupom'); ?>">
                     <i class="fas fa-tags"></i>
                     <span>Cupons</span>
                 </a>
