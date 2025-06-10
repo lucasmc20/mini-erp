@@ -60,6 +60,24 @@ class Migration_Create_usuarios extends CI_Migration
                 'constraint' => 10,
                 'null' => TRUE
             ],
+            'numero' => [
+                'type' => 'VARCHAR',
+                'constraint' => 10,
+                'null' => TRUE,
+                'comment' => 'Número do endereço'
+            ],
+            'complemento' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => TRUE,
+                'comment' => 'Complemento do endereço (apto, bloco, etc)'
+            ],
+            'bairro' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => TRUE,
+                'comment' => 'Bairro do endereço'
+            ],
             'ativo' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,
@@ -76,7 +94,7 @@ class Migration_Create_usuarios extends CI_Migration
             ]
         ]);
 
-    
+
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->add_key('email');
         $this->dbforge->add_key('cpf');

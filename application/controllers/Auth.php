@@ -52,7 +52,7 @@ class Auth extends MY_Controller
                 $email = trim($this->input->post('email'));
                 $senha = $this->input->post('senha');
 
-                $usuario = $this->Usuario_model->verificar_login($email, $senha);
+                $usuario = $this->Usuario_model->validar_login($email, $senha);
 
                 if ($usuario) {
                     // Verificar se usuário está ativo
